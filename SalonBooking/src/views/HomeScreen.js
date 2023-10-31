@@ -1,41 +1,34 @@
 import * as React from 'react';
+import { useFonts } from 'expo-font';
 import {
     View,
     Text,
     TextInput,
     TouchableOpacity,
     Alert,
+    Image,
     ImageBackground,
     TouchableWithoutFeedback,
     Keyboard,
 } from "react-native";
 import Background1 from "../../assets/images/bg1.jpeg";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
+import Logo from "../../assets/images/logo.jpg";
 
 export default function HomeScreen({ navigation }) {
-    const [phoneArray, setPhoneArray] = React.useState([]);
-    const [phone, setPhone] = React.useState("");
+    const [loaded] = useFonts({
+        Montserrat: require('../../assets/fonts/Montserrat-BoldItalic.ttf')
+    })
+    const [name, onChangeName] = React.useState('');
+    const [phone, onChangePhone] = React.useState('');
+    const [dob, onChangedob] = React.useState('');
 
     function DismissKeyboard() {
         Keyboard.dismiss();
     }
 
-    function handlePhoneNumber(number) {
-        setPhoneArray(oldArray => [...oldArray, number]);
-    }
-
-    function deleteNumber() {
-        setPhoneArray(oldArray => {
-            let updatedAray = [...oldArray];
-            updatedAray.pop();
-            return updatedAray;
-        });
-    }
-
     async function sendCheckIn() {
         console.log("submit");
-        if (!phone) {
+        if (!phone && !name) {
             Alert.alert("Please Enter Full Your Information !");
             return false;
         }
@@ -43,12 +36,17 @@ export default function HomeScreen({ navigation }) {
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ phone: phone })
+                body: JSON.stringify({
+                    phone: phone,
+                    name:name,
+                    dob:dob,
+                 })
             };
             await fetch("http://127.0.0.1:8080/api/checking", requestOptions).then(
                 (response) => {
                     response.json().then((data) => {
                         Alert.alert(data.messages);
+                        navigation.navigate('Admin');
                     });
                 }
             );
@@ -56,164 +54,49 @@ export default function HomeScreen({ navigation }) {
             console.error(error);
         }
     }
-
-    React.useEffect(() => {
-        console.log(phoneArray);
-        setPhone(phoneArray.join(""));
-        console.log(phone);
-    }, [phoneArray]);
-
+    if (!loaded){
+        return null;
+    }
+    
     return (
         <View>
-            <ImageBackground className="w-full h-full" source={Background1}>
-                <TouchableWithoutFeedback
-                    onPress={() => {
-                        DismissKeyboard();
-                    }}
-                >
+            <ImageBackground className = "w-full h-full" source={Background1}>
+                <TouchableWithoutFeedback onPress={ () => { DismissKeyboard() } }>
                     <View className="flex-1 justify-center items-center">
-                        <View className="flex py-4 shadow-md bg-white/90 w-1/2 flex-col justify-center items-center space-y-8">
-                            {phone
-                                ?
-                                <View className="flex flex-row gap-2 justify-center items-center">
-                                    <TextInput
-                                        className="text-lg mb-3"
-                                        keyboardType="text"
-                                        placeholder={phone}
-                                        value={phone}
-                                    />
-                                    <TouchableOpacity onPress={() => deleteNumber()}>
-                                        <FontAwesomeIcon icon={faDeleteLeft} size={30}></FontAwesomeIcon>
-                                    </TouchableOpacity>
-                                </View>
-                                :
-                                <Text>Fill your number to check in</Text>
-                            }
-                            <View className="flex flex-row gap-6">
-                                <TouchableOpacity
-                                    className="
-                                    flex flex-row justify-center text-center
-                                    border-2 border-black text-lg py-4 px-2 w-[100px] h-[100px] rounded-full
-                                    "
-                                    onPress={() => handlePhoneNumber(1)}
-                                >
-                                    <View className="flex flex-col justify-center text-center">
-                                        <Text>1</Text>
-                                    </View>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    className="
-                                    flex flex-row justify-center text-center 
-                                    border-2 border-black text-lg py-4 px-2 w-[100px] h-[100px] rounded-full
-                                    "
-                                    onPress={() => handlePhoneNumber(2)}
-                                >
-                                    <View className="flex flex-col justify-center text-center">
-                                        <Text>2</Text>
-                                    </View>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    className="
-                                    flex flex-row justify-center text-center 
-                                    border-2 border-black text-lg py-4 px-2 w-[100px] h-[100px] rounded-full
+                        <View className="flex py-6 shadow-md bg-white/90 w-1/2 flex-col justify-center items-center space-y-8">
+                            <Image className = "rounded-full  w-48 h-32" source={Logo}/>
+                            <Text style = {{fontFamily: 'Montserrat'}} className = "text-red-400 text-lg">*Provide your birthday for exclusive promotion alerts!</Text>
+                            <TextInput
+                                className="
+                                    border-b-2 border-b-black text-lg
+                                    focus:ring-[#5ef5f7] focus:border-[#5ef5f7] block py-4 px-2 w-[500px]
                                 "
-                                    onPress={() => handlePhoneNumber(3)}
-                                >
-                                    <View className="flex flex-col justify-center text-center">
-                                        <Text>3</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                            <View className="flex flex-row gap-6">
-                                <TouchableOpacity
-                                    className="
-                                    flex flex-row justify-center text-center 
-                                    border-2 border-black text-lg py-4 px-2 w-[100px] h-[100px] rounded-full
+                                onChangeText={onChangeName}
+                                placeholder="Your Name (required)"
+                            />
+                            <TextInput
+                                keyboardType='numeric'
+                                className="
+                                    border-b-2 border-b-black text-lg
+                                    focus:ring-[#5ef5f7] focus:border-[#5ef5f7] block py-4 px-2 w-[500px]
                                 "
-                                    onPress={() => handlePhoneNumber(4)}
-                                >
-                                    <View className="flex flex-col justify-center text-center">
-                                        <Text>4</Text>
-                                    </View>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    className="
-                                    flex flex-row justify-center text-center 
-                                    border-2 border-black text-lg py-4 px-2 w-[100px] h-[100px] rounded-full
+                                placeholder="Your Phone Number (required)"
+                                onChangeText={onChangePhone}
+                            />
+                            <TextInput
+                                className="
+                                    border-b-2 border-b-black text-lg
+                                    focus:ring-[#5ef5f7] focus:border-[#5ef5f7] block py-4 px-2 w-[500px]
                                 "
-                                    onPress={() => handlePhoneNumber(5)}
-                                >
-                                    <View className="flex flex-col justify-center text-center">
-                                        <Text>5</Text>
-                                    </View>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    className="
-                                    flex flex-row justify-center text-center 
-                                    border-2 border-black text-lg py-4 px-2 w-[100px] h-[100px] rounded-full
-                                "
-                                    onPress={() => handlePhoneNumber(6)}
-                                >
-                                    <View className="flex flex-col justify-center text-center">
-                                        <Text>6</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                            <View className="flex flex-row gap-6">
-                                <TouchableOpacity
-                                    className="
-                                    flex flex-row justify-center text-center 
-                                    border-2 border-black text-lg py-4 px-2 w-[100px] h-[100px] rounded-full
-                                "
-                                    onPress={() => handlePhoneNumber(7)}
-                                >
-                                    <View className="flex flex-col justify-center text-center">
-                                        <Text>7</Text>
-                                    </View>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    className="
-                                    flex flex-row justify-center text-center 
-                                    border-2 border-black text-lg py-4 px-2 w-[100px] h-[100px] rounded-full
-                                "
-                                    onPress={() => handlePhoneNumber(8)}
-                                >
-                                    <View className="flex flex-col justify-center text-center">
-                                        <Text>8</Text>
-                                    </View>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    className="
-                                    flex flex-row justify-center text-center 
-                                    border-2 border-black text-lg py-4 px-2 w-[100px] h-[100px] rounded-full
-                                "
-                                    onPress={() => handlePhoneNumber(9)}
-                                >
-                                    <View className="flex flex-col justify-center text-center">
-                                        <Text>9</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                            <View className="flex flex-row gap-6">
-                                <TouchableOpacity
-                                    className="
-                                    flex flex-row justify-center text-center 
-                                    border-2 border-black text-lg py-4 px-2 w-[100px] h-[100px] rounded-full
-                                "
-                                    onPress={() => handlePhoneNumber(0)}
-                                >
-                                    <View className="flex flex-col justify-center text-center">
-                                        <Text>0</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
+                                placeholder="Your Date of Birth"
+                                onChangeText={onChangedob}
+                            />
                             <TouchableOpacity
-                                className="border-2 border-yellow-500 bg-yellow-500 items-center capitalize text-white text-center px-12 py-3 rounded"
+                                className="border-2 border-[#f5ca2f] bg-[#f5ca2f] items-center capitalize text-white text-center px-12 py-3 rounded"
+                                title="Go to Details"
                                 // onPress={() => navigation.navigate('Admin')}
                                 onPress={() => sendCheckIn()}
-                            >
-                                <Text className="text-xl">Submit</Text>
-                            </TouchableOpacity>
+                            ><Text className="text-xl">Check In</Text></TouchableOpacity>
                         </View>
                     </View>
                 </TouchableWithoutFeedback>

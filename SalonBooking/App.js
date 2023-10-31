@@ -1,12 +1,19 @@
 import React, { useRef, useEffect, useState } from 'react';
 import {StyleSheet, View, Text, TouchableOpacity, ImageBackground , TouchableWithoutFeedback} from 'react-native';
 import LottieView from 'lottie-react-native';
+import { useFonts } from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+// import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Drawer from './src/Components/Drawer';
 import 'react-native-gesture-handler';
 import AppBackground from './assets/images/bg3.jpg';
 export default function App() {
+    const [loaded] = useFonts({
+        Montserrat: require('./assets/fonts/Montserrat-BoldItalic.ttf'),
+        Lato: require('./assets/fonts/Lato-BoldItalic.ttf'),
+        Fuggles: require('./assets/fonts/Fuggles-Regular.ttf'),
+        Roboto: require('./assets/fonts/Roboto-Italic.ttf'),
+    })
     const animationRef = useRef(null);
     const [isLoading, setIsLoading] = useState(false);
     const timerRef = useRef();
@@ -29,6 +36,12 @@ export default function App() {
             if (timerRef.current) clearTimeout(timerRef.current);
         };
     }, []);
+
+    if (!loaded){
+        return null;
+    }
+
+
     return (
         <NavigationContainer>
             <TouchableWithoutFeedback onPress={resetTimer}>
@@ -49,9 +62,9 @@ export default function App() {
                                         source={require('./assets/animations/animation_nails.json')}
                                     />
                                 </View>
-                                <View className="flex flex-row justify-center mt-12">
+                                <View className="flex flex-row justify-center mt-6">
                                     <View className="flex flex-col justify-center space-y-5 text-center items-center">
-                                        <Text className="italic text-gray-500 font-semibold text-5xl ml-2" style={styles.subtitle}>Luxury Nail Spa</Text>
+                                        <Text style = {{fontFamily: 'Fuggles'}}  className=" text-yellow-500  text-8xl ml-2" >Luxury Nail Spa</Text>
                                         <Text className = "text-4xl text-gray-500 font-bold italic" style={styles.title}>Welcome to Our Salon</Text>
                                         <View>
                                             <TouchableOpacity
@@ -84,5 +97,6 @@ const styles = StyleSheet.create({
     },
     title: {
         marginVertical: 2,
+        fontFamily: 'Roboto',
     },
 });
