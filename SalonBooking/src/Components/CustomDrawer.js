@@ -1,7 +1,5 @@
 import {DrawerContentScrollView,  DrawerItemList} from '@react-navigation/drawer';
 import {View, Text, TouchableOpacity , Image} from 'react-native';
-import HomeScreen from '../views/HomeScreen';
-import AdminScreen from '../views/AdminScreen';
 import logo from '../../assets/images/logo.jpg'
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
