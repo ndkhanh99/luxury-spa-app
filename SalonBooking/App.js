@@ -10,9 +10,13 @@ import AppBackground from './assets/images/bg3.jpg';
 export default function App() {
     const [loaded] = useFonts({
         Montserrat: require('./assets/fonts/Montserrat-BoldItalic.ttf'),
-        Lato: require('./assets/fonts/Lato-BoldItalic.ttf'),
         Fuggles: require('./assets/fonts/Fuggles-Regular.ttf'),
+        Lato: require('./assets/fonts/Lato-BoldItalic.ttf'),
+        LatoBlack: require('./assets/fonts/Lato-Black.ttf'),
         Roboto: require('./assets/fonts/Roboto-Italic.ttf'),
+        RobotoRegular: require('./assets/fonts/Roboto-Regular.ttf'),
+        RobotoBold: require('./assets/fonts/Roboto-Bold.ttf'),
+        RobotoBoldItalic: require('./assets/fonts/Roboto-BoldItalic.ttf'),
     })
     const animationRef = useRef(null);
     const [isLoading, setIsLoading] = useState(false);

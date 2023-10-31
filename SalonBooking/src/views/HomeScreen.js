@@ -69,34 +69,37 @@ export default function HomeScreen({ navigation }) {
                             <TextInput
                                 className="
                                     border-b-2 border-b-black text-lg
-                                    focus:ring-[#5ef5f7] focus:border-[#5ef5f7] block py-4 px-2 w-[500px]
+                                    focus:ring-[#5ef5f7] focus:border-[#f5ca2f] block py-4 px-2 w-5/6
                                 "
                                 onChangeText={onChangeName}
                                 placeholder="Your Name (required)"
+                                style={{fontFamily: 'Montserrat'}}
                             />
                             <TextInput
                                 keyboardType='numeric'
                                 className="
                                     border-b-2 border-b-black text-lg
-                                    focus:ring-[#5ef5f7] focus:border-[#5ef5f7] block py-4 px-2 w-[500px]
+                                    focus:ring-[#5ef5f7] focus:border-[#f5ca2f] block py-4 px-2 w-5/6
                                 "
                                 placeholder="Your Phone Number (required)"
                                 onChangeText={onChangePhone}
+                                style={{fontFamily: 'Montserrat'}}
                             />
                             <TextInput
                                 className="
                                     border-b-2 border-b-black text-lg
-                                    focus:ring-[#5ef5f7] focus:border-[#5ef5f7] block py-4 px-2 w-[500px]
+                                    focus:ring-[#5ef5f7] focus:border-[#f5ca2f] block py-4 px-2 w-5/6
                                 "
                                 placeholder="Your Date of Birth"
                                 onChangeText={onChangedob}
+                                style={{fontFamily: 'Montserrat'}}
                             />
                             <TouchableOpacity
                                 className="border-2 border-[#f5ca2f] bg-[#f5ca2f] items-center capitalize text-white text-center px-12 py-3 rounded"
                                 title="Go to Details"
                                 // onPress={() => navigation.navigate('Admin')}
                                 onPress={() => sendCheckIn()}
-                            ><Text className="text-xl">Check In</Text></TouchableOpacity>
+                            ><Text className="text-xl" style={{fontFamily: 'LatoBlack'}}>Submit</Text></TouchableOpacity>
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
