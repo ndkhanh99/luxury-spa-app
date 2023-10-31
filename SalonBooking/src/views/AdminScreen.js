@@ -6,11 +6,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { faRightToBracket } from '@fortawesome/free-solid-svg-icons';
 
 export default function AdminScreen({ navigation }) {
+    const ref = React.useRef(null);
     const [customers, setCustomers] = React.useState([{ id: 1, name: 'Khanh', time_in: '31/10/2023 09:09' },
     { id: 2, name: 'Tai', time_in: '31/10/2023 08:08' }]);
 
     async function getCustomers() {
-        console.log('rerender');
+        console.log('rerender with ref');
         try {
             const requestOptions = {
                 method: 'GET',
@@ -31,6 +32,12 @@ export default function AdminScreen({ navigation }) {
     React.useEffect(() => {
         getCustomers()
         console.log(customers);
+        // ref.current = setInterval(getCustomers, 60 * 1000);
+        // return () => {
+        //     if(ref.current){
+        //       clearInterval(ref.current)
+        //     }
+        //   }
     }, [])
 
     return (
