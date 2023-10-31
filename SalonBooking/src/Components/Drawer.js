@@ -36,7 +36,7 @@ const Drawer = ({ isLoading, setIsLoading }) => {
                     ),
                 }}
             />
-            {/* <DrawerC.Screen
+            <DrawerC.Screen
                 name="Admin"
                 component={AdminScreen}
                 options={{
@@ -44,7 +44,7 @@ const Drawer = ({ isLoading, setIsLoading }) => {
                         <FontAwesomeIcon icon={faDashboard} size={20} />
                     ),
                 }}
-            /> */}
+            />
         </DrawerC.Navigator>
     );
 };
