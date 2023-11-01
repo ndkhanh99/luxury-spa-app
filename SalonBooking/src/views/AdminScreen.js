@@ -8,8 +8,8 @@ import logo from "../../assets/images/logo.jpg";
 
 export default function AdminScreen({ navigation }) {
     const ref = React.useRef(null);
-    const [customers, setCustomers] = React.useState([{ id: 1, name: 'Khanh', time_in: '31/10/2023 09:09' },
-    { id: 2, name: 'Tai', time_in: '31/10/2023 08:08' }]);
+    const [customers, setCustomers] = React.useState([{ id: 1, name: 'Khanh', check_in_time: '31/10/2023 09:09' },
+    { id: 2, name: 'Tai', check_in_time: '31/10/2023 08:08' }]);
 
     async function getCustomers() {
         console.log('rerender with ref');
@@ -53,7 +53,7 @@ export default function AdminScreen({ navigation }) {
                 {customers?.map(customer =>
                     <View key={customer.id} className="flex flex-row border-b-2 border-gray-300">
                         <View className="w-60 h-20 bg-gray-200"><Text className="text-center mt-6 text-lg" style={{fontFamily: 'RobotoRegular'}}>{customer.name}</Text></View>
-                        <View className="w-60 h-20 bg-gray-200"><Text className="text-center mt-6 text-lg" style={{fontFamily: 'RobotoRegular'}}>{customer.time_in}</Text></View>
+                        <View className="w-60 h-20 bg-gray-200"><Text className="text-center mt-6 text-lg" style={{fontFamily: 'RobotoRegular'}}>{customer.check_in_time}</Text></View>
                     </View>
                 )}
             </View>
