@@ -11,7 +11,10 @@ export default function App() {
     const [loaded] = useFonts({
         Montserrat: require('./assets/fonts/Montserrat-BoldItalic.ttf'),
         Fuggles: require('./assets/fonts/Fuggles-Regular.ttf'),
-        Lato: require('./assets/fonts/Lato-BoldItalic.ttf'),
+        Lato: require('./assets/fonts/Lato-Black.ttf'),
+        LatoBold: require('./assets/fonts/Lato-Bold.ttf'),
+        LatoBoldItalic: require('./assets/fonts/Lato-BoldItalic.ttf'),
+        LatoThin: require('./assets/fonts/Lato-ThinItalic.ttf'),
         LatoBlack: require('./assets/fonts/Lato-Black.ttf'),
         Roboto: require('./assets/fonts/Roboto-Italic.ttf'),
         RobotoRegular: require('./assets/fonts/Roboto-Regular.ttf'),

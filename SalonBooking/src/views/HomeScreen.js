@@ -63,7 +63,7 @@ export default function HomeScreen({ navigation }) {
             <ImageBackground className = "w-full h-full" source={Background1}>
                 <TouchableWithoutFeedback onPress={ () => { DismissKeyboard() } }>
                     <View className="flex-1 justify-center items-center">
-                        <View className="flex py-6 shadow-md bg-white/90 w-1/2 flex-col justify-center items-center space-y-8">
+                        <View className="flex py-6 shadow-md bg-white/90 w-1/2 flex-col justify-center items-center space-y-8 rounded-lg">
                             <Image className = "rounded-full  w-48 h-32" source={Logo}/>
                             <Text style = {{fontFamily: 'Montserrat'}} className = "text-red-400 text-lg">*Provide your birthday for exclusive promotion alerts!</Text>
                             <TextInput
