@@ -90,7 +90,7 @@ export default function HomeScreen({ navigation }) {
                                     border-b-2 border-b-black text-lg
                                     focus:ring-[#5ef5f7] focus:border-[#f5ca2f] block py-4 px-2 w-5/6
                                 "
-                                placeholder="Your Date of Birth"
+                                placeholder="Your Date of Birth (mm/dd/yyyy)"
                                 onChangeText={onChangedob}
                                 style={{fontFamily: 'Montserrat'}}
                             />
