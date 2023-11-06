@@ -6,40 +6,55 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { faRightToBracket, faUserClock } from '@fortawesome/free-solid-svg-icons';
 import logo from "../../assets/images/logo.jpg";
 import Background from "../../assets/images/bg3.jpg";
+import io from "socket.io-client";
+
 
 export default function AdminScreen({ navigation }) {
-    const ref = React.useRef(null);
+    const socket = React.useRef(null);
     const [customers, setCustomers] = React.useState([]);
 
-    async function getCustomers() {
-        console.log('rerender with ref');
-        try {
-            const requestOptions = {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
-            };
-            await fetch("http://127.0.0.1:8080/api/checking", requestOptions).then(
-                (response) => {
-                    response.json().then((data) => {
-                        console.log(data.data);
-                        setCustomers(data.data);
-                    });
-                }
-            );
-        } catch (error) {
-            console.error(error);
-        }
-    }
+    const newCheckin = (data) => {
+        setCustomers(prevCustomers => [...prevCustomers , data]);
+    };
+
     React.useEffect(() => {
-        getCustomers()
-        console.log(customers);
-        // ref.current = setInterval(getCustomers, 60 * 1000);
-        // return () => {
-        //     if(ref.current){
-        //       clearInterval(ref.current)
-        //     }
-        //   }
+
+        socket.current = io("http://127.0.0.1:8080");
+
+        socket.current.on('connect' , () => {
+            console.log("Connected to Socket.Io server");
+        });
+
+        socket.current.on('checkin_event' , newCheckin);
+
+        return () => {
+
+            socket.current.off('checkin_event', handleNewCheckIn);
+            
+            socket.current.disconnect();
+        };
+
     }, [])
+
+    // async function getCustomers() {
+    //     console.log('rerender with ref');
+    //     try {
+    //         const requestOptions = {
+    //             method: 'GET',
+    //             headers: { 'Content-Type': 'application/json' },
+    //         };
+    //         await fetch("http://127.0.0.1:8080/api/checking", requestOptions).then(
+    //             (response) => {
+    //                 response.json().then((data) => {
+    //                     console.log(data.data);
+    //                     setCustomers(data.data);
+    //                 });
+    //             }
+    //         );
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // }
 
     return (
         <View>
