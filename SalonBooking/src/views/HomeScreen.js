@@ -13,50 +13,59 @@ import {
 } from "react-native";
 import Background1 from "../../assets/images/bg1.jpeg";
 import Logo from "../../assets/images/logo.jpg";
+import io from "socket.io-client";
 
 export default function HomeScreen({ navigation }) {
     const [loaded] = useFonts({
         Montserrat: require('../../assets/fonts/Montserrat-BoldItalic.ttf')
     })
     const [name, onChangeName] = React.useState('');
+
     const [phone, onChangePhone] = React.useState('');
+
     const [dob, onChangedob] = React.useState('');
+
+    const socket = io('http://127.0.0.1:8080', { path: '/api/checking' });
 
     function DismissKeyboard() {
         Keyboard.dismiss();
     }
 
-    async function sendCheckIn() {
+    useEffect(() => {
+
+        const handleCheckIn = (data) => {
+
+            Alert.alert(data.message);
+            navigation.navigate('Admin');
+
+        };
+
+        socket.on('check_in', handleCheckIn);
+
+
+        // Clean-up function
+        return () => {
+
+            socket.off('check_in', handleCheckIn);
+            socket.close();
+    
+        };
+    }, [navigation]);
+
+    const sendCheckIn = async () => {
+
         console.log("submit");
+
         if (!phone && !name) {
+
             Alert.alert("Please Enter Full Your Information !");
+
             return false;
+            
         }
-        try {
-            const requestOptions = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    phone: phone,
-                    name:name,
-                    dob:dob,
-                 })
-            };
-            await fetch("http://127.0.0.1:8080/api/checking", requestOptions).then(
-                (response) => {
-                    response.json().then((data) => {
-                        Alert.alert(data.messages);
-                        navigation.navigate('Admin');
-                    });
-                }
-            );
-        } catch (error) {
-            console.error(error);
-        }
-    }
-    if (!loaded){
-        return null;
-    }
+
+        socket.emit('check_in', { phone, name, dob });
+    };
     
     return (
         <View>
