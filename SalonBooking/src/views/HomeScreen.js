@@ -42,10 +42,13 @@ export default function HomeScreen({ navigation }) {
                     dob:dob,
                  })
             };
-            await fetch("http://127.0.0.1:8080/api/checking", requestOptions).then(
+            await fetch("https://luxurynailwestsac.com/api/checking", requestOptions).then(
                 (response) => {
                     response.json().then((data) => {
                         Alert.alert(data.messages);
+                        onChangeName("");
+                        onChangePhone("");
+                        onChangedob("");
                         navigation.navigate('Admin');
                     });
                 }
@@ -72,6 +75,7 @@ export default function HomeScreen({ navigation }) {
                                     focus:ring-[#5ef5f7] focus:border-[#f5ca2f] block py-4 px-2 w-5/6
                                 "
                                 onChangeText={onChangeName}
+                                value={name}
                                 placeholder="Your Name (required)"
                                 style={{fontFamily: 'Montserrat'}}
                             />
@@ -83,6 +87,7 @@ export default function HomeScreen({ navigation }) {
                                 "
                                 placeholder="Your Phone Number (required)"
                                 onChangeText={onChangePhone}
+                                value={phone}
                                 style={{fontFamily: 'Montserrat'}}
                             />
                             <TextInput
@@ -92,6 +97,7 @@ export default function HomeScreen({ navigation }) {
                                 "
                                 placeholder="Your Date of Birth (mm/dd/yyyy)"
                                 onChangeText={onChangedob}
+                                value={dob}
                                 style={{fontFamily: 'Montserrat'}}
                             />
                             <TouchableOpacity

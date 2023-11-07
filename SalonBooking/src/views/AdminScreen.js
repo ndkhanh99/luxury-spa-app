@@ -12,16 +12,14 @@ export default function AdminScreen({ navigation }) {
     const [customers, setCustomers] = React.useState([]);
 
     async function getCustomers() {
-        console.log('rerender with ref');
         try {
             const requestOptions = {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
             };
-            await fetch("http://127.0.0.1:8080/api/checking", requestOptions).then(
+            await fetch("https://luxurynailwestsac.com/api/checking", requestOptions).then(
                 (response) => {
                     response.json().then((data) => {
-                        console.log(data.data);
                         setCustomers(data.data);
                     });
                 }
@@ -32,7 +30,6 @@ export default function AdminScreen({ navigation }) {
     }
     React.useEffect(() => {
         getCustomers()
-        console.log(customers);
         // ref.current = setInterval(getCustomers, 60 * 1000);
         // return () => {
         //     if(ref.current){
