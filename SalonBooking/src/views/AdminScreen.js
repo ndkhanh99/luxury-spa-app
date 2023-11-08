@@ -10,51 +10,23 @@ import io from "socket.io-client";
 
 
 export default function AdminScreen({ navigation }) {
-    const socket = React.useRef(null);
+    const socket = io('http://127.0.0.1:8080/api/checking');
     const [customers, setCustomers] = React.useState([]);
-
-    const newCheckin = (data) => {
-        setCustomers(prevCustomers => [...prevCustomers , data]);
-    };
 
     React.useEffect(() => {
 
-        socket.current = io("http://127.0.0.1:8080");
+        const handleNewCheckIn = (data) => {
+            console.log(data.data);
+            setCustomers(prevCustomers => [...prevCustomers , data.data]);
+        }
 
-        socket.current.on('connect' , () => {
-            console.log("Connected to Socket.Io server");
-        });
-
-        socket.current.on('checkin_event' , newCheckin);
+        socket.on("waiting" , handleNewCheckIn)
 
         return () => {
-
-            socket.current.off('checkin_event', handleNewCheckIn);
-            
-            socket.current.disconnect();
+            socket.off('waiting', handleNewCheckIn);
         };
 
     }, [])
-
-    // async function getCustomers() {
-    //     console.log('rerender with ref');
-    //     try {
-    //         const requestOptions = {
-    //             method: 'GET',
-    //             headers: { 'Content-Type': 'application/json' },
-    //         };
-    //         await fetch("http://127.0.0.1:8080/api/checking", requestOptions).then(
-    //             (response) => {
-    //                 response.json().then((data) => {
-    //                     console.log(data.data);
-    //                     setCustomers(data.data);
-    //                 });
-    //             }
-    //         );
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // }
 
     return (
         <View>

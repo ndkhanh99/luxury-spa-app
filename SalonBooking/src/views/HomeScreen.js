@@ -25,45 +25,40 @@ export default function HomeScreen({ navigation }) {
 
     const [dob, onChangedob] = React.useState('');
 
-    const socket = io('http://127.0.0.1:8080', { path: '/api/checking' });
+    const socket = io('http://127.0.0.1:8080/api/checking');
 
     function DismissKeyboard() {
         Keyboard.dismiss();
     }
 
-    useEffect(() => {
+    React.useEffect(() => {
 
         const handleCheckIn = (data) => {
 
             Alert.alert(data.message);
+            
+            onChangeName("");
+            onChangePhone("");
+            onChangedob("");
+
             navigation.navigate('Admin');
 
         };
 
         socket.on('check_in', handleCheckIn);
 
-
-        // Clean-up function
         return () => {
-
             socket.off('check_in', handleCheckIn);
             socket.close();
-    
         };
     }, [navigation]);
 
     const sendCheckIn = async () => {
-
         console.log("submit");
-
         if (!phone && !name) {
-
             Alert.alert("Please Enter Full Your Information !");
-
             return false;
-            
         }
-
         socket.emit('check_in', { phone, name, dob });
     };
     
